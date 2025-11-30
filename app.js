@@ -1,4 +1,3 @@
-// ==================== DATA STORE ====================
 const DataStore = {
     init() {
         if (!localStorage.getItem('pontosafra_users')) {
@@ -131,7 +130,6 @@ const DataStore = {
         return notification;
     },
     
-    // Financial Module
     getFinancialRecords() { return JSON.parse(localStorage.getItem('pontosafra_financial') || '[]'); },
     addFinancialRecord(record) {
         const records = this.getFinancialRecords();
@@ -162,7 +160,6 @@ const DataStore = {
         };
     },
     
-    // Production Module
     getProduction() { return JSON.parse(localStorage.getItem('pontosafra_production') || '[]'); },
     addProduction(production) {
         const productions = this.getProduction();
@@ -187,7 +184,6 @@ const DataStore = {
         localStorage.setItem('pontosafra_production', JSON.stringify(productions));
     },
     
-    // Inventory/Stock Module
     getInventory() { return JSON.parse(localStorage.getItem('pontosafra_inventory') || '[]'); },
     addInventoryItem(item) {
         const inventory = this.getInventory();
@@ -216,7 +212,6 @@ const DataStore = {
     }
 };
 
-// ==================== UI UTILITIES ====================
 const UI = {
     showToast(message, type = 'info') {
         const toast = document.createElement('div');
@@ -322,7 +317,6 @@ function loadProducerDashboard() {
         return;
     }
     
-    // Buscar informações do consultor
     const consultants = DataStore.getConsultants();
     const consultant = consultants.find(c => c.id === client.consultantId);
     const consultantUser = consultant ? DataStore.getUsers().find(u => u.id === consultant.userId) : null;
@@ -357,7 +351,6 @@ function loadProducerDashboard() {
         }
     }
     
-    // Adicionar card do consultor
     if (consultantUser) {
         const bottomRow = document.querySelector('.bottom-row');
         if (bottomRow) {
@@ -400,14 +393,12 @@ function loadProducerDashboard() {
                     </div>
                 </div>
             `;
-            // Inserir como primeiro card
             bottomRow.insertBefore(consultantCard, bottomRow.firstChild);
             lucide.createIcons();
         }
     }
 }
 
-// ==================== INITIALIZATION ====================
 function initializeApp() {
     DataStore.init();
     const currentUser = DataStore.getCurrentUser();
@@ -532,22 +523,46 @@ function loadPage(page) {
     if (pages[page]) {
         pages[page](mainContent);
         lucide.createIcons();
+        setTimeout(() => setupSearchAndFilters(), 100);
     }
 }
 
 function setupMobileMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
     const mainWrapper = document.querySelector('.main-wrapper');
     
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('collapsed');
+            
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('pontosafra_sidebar_collapsed', isCollapsed);
+        });
+        
+        sidebar.addEventListener('click', (e) => {
+            if (window.innerWidth > 1024 && sidebar.classList.contains('collapsed')) {
+                if (!e.target.closest('.nav-link')) {
+                    sidebar.classList.remove('collapsed');
+                    localStorage.setItem('pontosafra_sidebar_collapsed', 'false');
+                }
+            }
+        });
+        
+        const savedState = localStorage.getItem('pontosafra_sidebar_collapsed');
+        if (savedState === 'true') {
+            sidebar.classList.add('collapsed');
+        }
+    }
+    
     if (menuToggle && sidebar) {
-        // Toggle menu
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             sidebar.classList.toggle('open');
         });
         
-        // Close menu quando clicar fora
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 1024 && 
                 !sidebar.contains(e.target) && 
@@ -557,7 +572,6 @@ function setupMobileMenu() {
             }
         });
         
-        // Close menu ao clicar em um link de navegação
         const navLinks = sidebar.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -567,7 +581,6 @@ function setupMobileMenu() {
             });
         });
         
-        // Prevenir scroll do body quando menu está aberto
         const observer = new MutationObserver(() => {
             if (sidebar.classList.contains('open') && window.innerWidth <= 1024) {
                 document.body.style.overflow = 'hidden';
@@ -653,7 +666,6 @@ function updateUserInfo() {
 function updateMenuLabels() {
     const currentUser = DataStore.getCurrentUser();
     if (currentUser && currentUser.role === 'Produtor') {
-        // Renomear "Clientes" para "Propriedades" para produtores
         const clientsLink = document.querySelector('.nav-link[data-page="clients"]');
         if (clientsLink) {
             const span = clientsLink.querySelector('span');
@@ -669,7 +681,6 @@ function renderClientsPage(container) {
     const isConsultant = currentUser.role === 'Consultor';
     const consultant = isConsultant ? DataStore.getConsultantByUserId(currentUser.id) : null;
     
-    // Filtrar clientes baseado no tipo de usuário
     let clients = DataStore.getClients();
     if (isConsultant && consultant) {
         clients = DataStore.getClientsByConsultant(consultant.id);
@@ -690,6 +701,19 @@ function renderClientsPage(container) {
                 </button>
             ` : ''}
         </div>
+        
+        <div class="table-container" style="margin-bottom: 24px;">
+            <div class="table-header">
+                <h3>Clientes</h3>
+                <div class="table-actions">
+                    <div class="search-box">
+                        <i data-lucide="search"></i>
+                        <input type="text" placeholder="Buscar clientes..." id="client-search">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="clients-grid">
             ${clients.map(client => `
                 <div class="client-card">
@@ -1222,7 +1246,6 @@ function renderFinancialPage(container) {
     const records = DataStore.getFinancialRecords();
     const categories = DataStore.getFinancialCategories();
     
-    // Calculate totals
     const totalRevenue = records.filter(r => r.type === 'revenue' && r.status === 'paid').reduce((sum, r) => sum + r.amount, 0);
     const totalExpense = records.filter(r => r.type === 'expense' && r.status === 'paid').reduce((sum, r) => sum + r.amount, 0);
     const pending = records.filter(r => r.status === 'pending').reduce((sum, r) => sum + r.amount, 0);
@@ -1696,7 +1719,6 @@ function renderProfilePage(container) {
     const clientData = !isConsultant ? DataStore.getClientByUserId(currentUser.id) : null;
     const clients = isConsultant && consultant ? DataStore.getClientsByConsultant(consultant.id) : [];
     
-    // Para produtores, buscar informações do consultor
     let producerConsultant = null;
     let producerConsultantUser = null;
     if (!isConsultant && clientData && clientData.consultantId) {
@@ -1711,7 +1733,6 @@ function renderProfilePage(container) {
     const financial = DataStore.getFinancialRecords();
     const activities = DataStore.getActivities();
     
-    // Cálculos de estatísticas
     const totalRevenue = financial.filter(f => f.type === 'revenue' && f.status === 'paid').reduce((sum, f) => sum + f.amount, 0);
     const totalExpense = financial.filter(f => f.type === 'expense' && f.status === 'paid').reduce((sum, f) => sum + f.amount, 0);
     const totalProduction = production.reduce((sum, p) => sum + p.quantity, 0);
@@ -2066,7 +2087,6 @@ function showEditProfileModal() {
     });
 }
 
-// ==================== RELATÓRIOS PAGE ====================
 function renderReportsPage(container) {
     container.innerHTML = `
         <div class="content-header">
@@ -2223,7 +2243,6 @@ function downloadReport(type) {
     UI.showToast(`Download do relatório de ${type} iniciado!`, 'success');
 }
 
-// ==================== CLIMA PAGE ====================
 function renderWeatherPage(container) {
     container.innerHTML = `
         <div class="content-header">
@@ -2430,7 +2449,6 @@ function renderWeatherPage(container) {
     `;
 }
 
-// ==================== COTAÇÕES PAGE ====================
 function renderMarketPage(container) {
     container.innerHTML = `
         <div class="content-header">
@@ -2698,7 +2716,6 @@ function exportMarketData() {
     UI.showToast('Exportando dados do mercado...', 'success');
 }
 
-// ==================== NOTÍCIAS PAGE ====================
 function renderNewsPage(container) {
     container.innerHTML = `
         <div class="content-header">
@@ -2802,7 +2819,6 @@ function renderNewsPage(container) {
         </div>
     `;
     
-    // Setup tab navigation
     const tabBtns = container.querySelectorAll('.tab-btn');
     const tabContents = container.querySelectorAll('.tab-content');
     
@@ -2818,7 +2834,6 @@ function renderNewsPage(container) {
         });
     });
     
-    // Carregar notícias automaticamente
     setTimeout(() => loadNewsFromGoogle(), 1000);
 }
 
@@ -2827,7 +2842,6 @@ async function loadNewsFromGoogle() {
     if (!newsContainer) return;
     
     try {
-        // Simulação de notícias (em produção, você usaria uma API real ou RSS parser)
         const mockNews = [
             {
                 title: "Safra de café no Brasil deve crescer 10% em 2025, prevê Conab",
@@ -2933,7 +2947,6 @@ async function loadNewsFromGoogle() {
         
         lucide.createIcons();
         
-        // Adicionar animação de entrada
         const cards = newsContainer.querySelectorAll('.news-card');
         cards.forEach((card, index) => {
             card.style.opacity = '0';
@@ -2998,7 +3011,6 @@ function shareNews(title) {
     UI.showToast(`Compartilhando: "${title.substring(0, 30)}..."`, 'info');
 }
 
-// ==================== CAPACITAÇÃO PAGE ====================
 function renderCoursesPage(container) {
     container.innerHTML = `
         <div class="content-header">
@@ -3251,7 +3263,6 @@ function renderCoursesPage(container) {
         </div>
     `;
     
-    // Setup tab navigation
     const tabBtns = container.querySelectorAll('.tab-btn');
     const tabContents = container.querySelectorAll('.tab-content');
     
@@ -3288,6 +3299,306 @@ function downloadCertificate(id) {
     UI.showToast(`Download do certificado #${id} iniciado!`, 'success');
 }
 
+function closeModal() {
+    const modal = document.querySelector('.modal-overlay');
+    if (modal) modal.remove();
+}
+
+function viewClient(id) {
+    const client = DataStore.getClients().find(c => c.id === id);
+    if (!client) return;
+    
+    const modalContent = `
+        <div style="padding: 8px 0;">
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">Nome da Fazenda</label>
+                <p style="font-size: 16px; color: var(--text-primary); margin: 0;">${client.name}</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">Proprietário</label>
+                <p style="font-size: 16px; color: var(--text-primary); margin: 0;">${client.owner}</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">Área (hectares)</label>
+                <p style="font-size: 16px; color: var(--text-primary); margin: 0;">${client.area} ha</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">Culturas</label>
+                <p style="font-size: 16px; color: var(--text-primary); margin: 0;">${client.crops}</p>
+            </div>
+            <div>
+                <label style="display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">Status</label>
+                <p style="font-size: 16px; color: var(--text-primary); margin: 0;">${client.status}</p>
+            </div>
+        </div>
+    `;
+    
+    UI.showModal(`Cliente: ${client.name}`, modalContent);
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+function setupSearchAndFilters() {
+    const financialSearch = document.getElementById('financial-search');
+    if (financialSearch) {
+        financialSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const table = document.querySelector('.data-table');
+            if (!table) return;
+            
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
+    
+    const productionSearch = document.getElementById('production-search');
+    if (productionSearch) {
+        productionSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const table = document.querySelector('.data-table');
+            if (!table) return;
+            
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
+    
+    const inventorySearch = document.getElementById('inventory-search');
+    if (inventorySearch) {
+        inventorySearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const table = document.querySelector('.data-table');
+            if (!table) return;
+            
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
+    
+    const clientSearch = document.getElementById('client-search');
+    if (clientSearch) {
+        clientSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.client-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
+}
+
+function editFinancialRecord(id) {
+    const records = DataStore.getFinancialRecords();
+    const record = records.find(r => r.id === id);
+    if (!record) return;
+    
+    const modalContent = `
+        <form id="editFinancialForm">
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Descrição</label>
+                <input type="text" id="edit-description" value="${record.description}" required 
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Valor (R$)</label>
+                <input type="number" id="edit-amount" step="0.01" value="${record.amount}" required
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+        </form>
+    `;
+    
+    UI.showModal('Editar Lançamento', modalContent, () => saveFinancialEdit(id));
+}
+
+function saveFinancialEdit(id) {
+    const description = document.getElementById('edit-description').value;
+    const amount = parseFloat(document.getElementById('edit-amount').value);
+    
+    DataStore.updateFinancialRecord(id, { description, amount });
+    closeModal();
+    loadPage('financial');
+    UI.showToast('Lançamento atualizado!', 'success');
+}
+
+function deleteFinancialRecord(id) {
+    const record = DataStore.getFinancialRecords().find(r => r.id === id);
+    if (!record) return;
+    
+    UI.showModal(
+        'Confirmar Exclusão',
+        `<p>Deseja realmente excluir "<strong>${record.description}</strong>"?</p><p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Esta ação não pode ser desfeita.</p>`,
+        () => {
+            DataStore.deleteFinancialRecord(id);
+            loadPage('financial');
+            UI.showToast('Lançamento excluído!', 'success');
+        }
+    );
+}
+
+function editClient(id) {
+    const clients = DataStore.getClients();
+    const client = clients.find(c => c.id === id);
+    if (!client) return;
+    
+    const modalContent = `
+        <form id="editClientForm">
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Nome da Fazenda</label>
+                <input type="text" id="edit-client-name" value="${client.name}" required
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Proprietário</label>
+                <input type="text" id="edit-client-owner" value="${client.owner}" required
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+        </form>
+    `;
+    
+    UI.showModal('Editar Cliente', modalContent, () => saveClientEdit(id));
+}
+
+function saveClientEdit(id) {
+    const name = document.getElementById('edit-client-name').value;
+    const owner = document.getElementById('edit-client-owner').value;
+    
+    DataStore.updateClient(id, { name, owner });
+    closeModal();
+    loadPage('clients');
+    UI.showToast('Cliente atualizado!', 'success');
+}
+
+function deleteClient(id) {
+    const client = DataStore.getClients().find(c => c.id === id);
+    if (!client) return;
+    
+    UI.showModal(
+        'Confirmar Exclusão',
+        `<p>Deseja realmente excluir "<strong>${client.name}</strong>"?</p><p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Esta ação não pode ser desfeita.</p>`,
+        () => {
+            DataStore.deleteClient(id);
+            loadPage('clients');
+            UI.showToast('Cliente excluído!', 'success');
+        }
+    );
+}
+
+function editProductionRecord(id) {
+    const records = DataStore.getProductionRecords();
+    const record = records.find(r => r.id === id);
+    if (!record) return;
+    
+    const modalContent = `
+        <form id="editProductionForm">
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Cultura</label>
+                <input type="text" id="edit-production-crop" value="${record.crop}" required
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Quantidade (kg)</label>
+                <input type="number" id="edit-production-quantity" value="${record.quantity}" required
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+        </form>
+    `;
+    
+    UI.showModal('Editar Produção', modalContent, () => saveProductionEdit(id));
+}
+
+function saveProductionEdit(id) {
+    const crop = document.getElementById('edit-production-crop').value;
+    const quantity = parseInt(document.getElementById('edit-production-quantity').value);
+    
+    DataStore.updateProduction(id, { crop, quantity });
+    closeModal();
+    loadPage('production');
+    UI.showToast('Registro de produção atualizado!', 'success');
+}
+
+function deleteProductionRecord(id) {
+    const record = DataStore.getProductionRecords().find(r => r.id === id);
+    if (!record) return;
+    
+    UI.showModal(
+        'Confirmar Exclusão',
+        `<p>Deseja realmente excluir o registro de "<strong>${record.crop}</strong>"?</p><p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Esta ação não pode ser desfeita.</p>`,
+        () => {
+            DataStore.deleteProduction(id);
+            loadPage('production');
+            UI.showToast('Registro excluído!', 'success');
+        }
+    );
+}
+
+function editInventoryItem(id) {
+    const inventory = DataStore.getInventory();
+    const item = inventory.find(i => i.id === id);
+    if (!item) return;
+    
+    const modalContent = `
+        <form id="editInventoryForm">
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Nome do Insumo</label>
+                <input type="text" id="edit-inventory-name" value="${item.name}" required
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px;">Quantidade</label>
+                <input type="number" id="edit-inventory-quantity" value="${item.quantity}" required
+                    style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+        </form>
+    `;
+    
+    UI.showModal('Editar Insumo', modalContent, () => saveInventoryEdit(id));
+}
+
+function saveInventoryEdit(id) {
+    const name = document.getElementById('edit-inventory-name').value;
+    const quantity = parseInt(document.getElementById('edit-inventory-quantity').value);
+    
+    DataStore.updateInventoryItem(id, { name, quantity });
+    closeModal();
+    loadPage('inventory');
+    UI.showToast('Insumo atualizado!', 'success');
+}
+
+function deleteInventoryItem(id) {
+    const item = DataStore.getInventory().find(i => i.id === id);
+    if (!item) return;
+    
+    UI.showModal(
+        'Confirmar Exclusão',
+        `<p>Deseja realmente excluir "<strong>${item.name}</strong>"?</p><p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Esta ação não pode ser desfeita.</p>`,
+        () => {
+            DataStore.deleteInventoryItem(id);
+            loadPage('inventory');
+            UI.showToast('Insumo excluído!', 'success');
+        }
+    );
+}
+
 window.DataStore = DataStore;
 window.UI = UI;
 window.markNotificationRead = markNotificationRead;
@@ -3299,10 +3610,19 @@ window.showAddProductionModal = showAddProductionModal;
 window.getQualityLabel = getQualityLabel;
 window.showAddInventoryModal = showAddInventoryModal;
 window.showEditProfileModal = showEditProfileModal;
+window.downloadCertificate = downloadCertificate;
+window.closeModal = closeModal;
+window.viewClient = viewClient;
+window.editFinancialRecord = editFinancialRecord;
+window.deleteFinancialRecord = deleteFinancialRecord;
+window.editClient = editClient;
+window.deleteClient = deleteClient;
+window.editProductionRecord = editProductionRecord;
+window.deleteProductionRecord = deleteProductionRecord;
+window.editInventoryItem = editInventoryItem;
+window.deleteInventoryItem = deleteInventoryItem;
 
-// Event listener para o menu do usuário ir ao perfil
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializa o app
     initializeApp();
     
     const userMenu = document.querySelector('.user-menu');
@@ -3310,7 +3630,6 @@ document.addEventListener('DOMContentLoaded', () => {
         userMenu.style.cursor = 'pointer';
         userMenu.addEventListener('click', () => {
             loadPage('profile');
-            // Atualiza navegação ativa
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             const profileLink = document.querySelector('.nav-link[data-page="profile"]');
             if (profileLink) profileLink.classList.add('active');

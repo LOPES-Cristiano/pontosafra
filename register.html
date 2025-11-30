@@ -81,13 +81,32 @@
                 
                 <div class="register-link">
                     <span>Já tem uma conta?</span>
-                    <a href="login.html" class="link-highlight">Fazer login</a>
+                    <a href="login.html" class="link-highlight" id="login-link">Fazer login</a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Page transition effect
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-in-out';
+                document.body.style.opacity = '1';
+            }, 10);
+        });
+
+        // Smooth page transition on link click
+        document.getElementById('login-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.style.transition = 'opacity 0.3s ease-in-out';
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 300);
+        });
+
         lucide.createIcons();
         
         function showAlert(message, type = 'error') {

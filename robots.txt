@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /app.js
+Disallow: /styles.css
+
+Sitemap: https://pontosafra.com.br/sitemap.xml

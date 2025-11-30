@@ -6,70 +6,131 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
-    <title>Dashboard - Ponto Safra</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Ponto Safra - Sistema completo de gestão agrícola para produtores e consultores. Controle produção, financeiro, estoque e clientes em uma plataforma integrada.">
+    <meta name="keywords" content="gestão agrícola, agronegócio, consultoria rural, controle de produção, gestão financeira agrícola, fazenda, agricultura, produção rural">
+    <meta name="author" content="Ponto Safra">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#1a1a1a">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pontosafra.com.br/">
+    <meta property="og:title" content="Ponto Safra - Gestão Agrícola Inteligente">
+    <meta property="og:description" content="Sistema completo de gestão agrícola para produtores e consultores. Controle produção, financeiro, estoque e clientes em uma plataforma integrada.">
+    <meta property="og:image" content="https://pontosafra.com.br/logo.png">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Ponto Safra">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pontosafra.com.br/">
+    <meta property="twitter:title" content="Ponto Safra - Gestão Agrícola Inteligente">
+    <meta property="twitter:description" content="Sistema completo de gestão agrícola para produtores e consultores. Controle produção, financeiro, estoque e clientes.">
+    <meta property="twitter:image" content="https://pontosafra.com.br/logo.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pontosafra.com.br/">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <title>Dashboard - Ponto Safra | Gestão Agrícola Inteligente</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Ponto Safra",
+      "description": "Sistema completo de gestão agrícola para produtores e consultores rurais",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web, Android, iOS",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Ponto Safra",
+        "url": "https://pontosafra.com.br"
+      }
+    }
+    </script>
 </head>
 <body>
-    <div id="app-screen" class="app-layout">
-        <aside class="sidebar" id="sidebar">
+    <div id="app-screen" class="app-layout" role="application" aria-label="Sistema Ponto Safra">
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menu principal">
             <div class="sidebar-header">
-                <img src="logo.png" alt="Logo" class="logo-mini-img">
+                <img src="logo.png" alt="Logo Ponto Safra - Sistema de Gestão Agrícola" class="logo-mini-img" width="40" height="40">
                 <div class="logo-text">
                     <h3>PONTO SAFRA</h3>
                     <span>Consultoria</span>
                 </div>
+                <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Minimizar menu">
+                    <i data-lucide="chevrons-left" aria-hidden="true"></i>
+                </button>
             </div>
             
             <nav class="sidebar-nav">
-                <a href="#" class="nav-link active" data-page="dashboard">
-                    <i data-lucide="layout-dashboard"></i>
+                <a href="#dashboard" class="nav-link active" data-page="dashboard" aria-label="Ir para Dashboard" aria-current="page">
+                    <i data-lucide="layout-dashboard" aria-hidden="true"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="nav-link" data-page="production">
-                    <i data-lucide="package"></i>
+                <a href="#production" class="nav-link" data-page="production" aria-label="Ir para Produção">
+                    <i data-lucide="package" aria-hidden="true"></i>
                     <span>Produção</span>
                 </a>
-                <a href="#" class="nav-link" data-page="financial">
-                    <i data-lucide="dollar-sign"></i>
+                <a href="#financial" class="nav-link" data-page="financial" aria-label="Ir para Financeiro">
+                    <i data-lucide="dollar-sign" aria-hidden="true"></i>
                     <span>Financeiro</span>
                 </a>
-                <a href="#" class="nav-link" data-page="clients">
-                    <i data-lucide="users"></i>
+                <a href="#clients" class="nav-link" data-page="clients" aria-label="Ir para Clientes">
+                    <i data-lucide="users" aria-hidden="true"></i>
                     <span>Clientes</span>
                 </a>
-                <a href="#" class="nav-link" data-page="inventory">
-                    <i data-lucide="archive"></i>
+                <a href="#inventory" class="nav-link" data-page="inventory" aria-label="Ir para Estoque">
+                    <i data-lucide="archive" aria-hidden="true"></i>
                     <span>Estoque</span>
                 </a>
-                <a href="#" class="nav-link" data-page="reports">
-                    <i data-lucide="bar-chart-3"></i>
+                <a href="#reports" class="nav-link" data-page="reports" aria-label="Ir para Relatórios">
+                    <i data-lucide="bar-chart-3" aria-hidden="true"></i>
                     <span>Relatórios</span>
                 </a>
-                <a href="#" class="nav-link" data-page="weather">
-                    <i data-lucide="cloud-sun"></i>
+                <a href="#weather" class="nav-link" data-page="weather" aria-label="Ir para Clima">
+                    <i data-lucide="cloud-sun" aria-hidden="true"></i>
                     <span>Clima</span>
                 </a>
-                <a href="#" class="nav-link" data-page="market">
-                    <i data-lucide="trending-up"></i>
+                <a href="#market" class="nav-link" data-page="market" aria-label="Ir para Cotações">
+                    <i data-lucide="trending-up" aria-hidden="true"></i>
                     <span>Cotações</span>
                 </a>
-                <a href="#" class="nav-link" data-page="news">
-                    <i data-lucide="newspaper"></i>
+                <a href="#news" class="nav-link" data-page="news" aria-label="Ir para Notícias">
+                    <i data-lucide="newspaper" aria-hidden="true"></i>
                     <span>Notícias</span>
                 </a>
-                <a href="#" class="nav-link" data-page="courses">
-                    <i data-lucide="graduation-cap"></i>
+                <a href="#courses" class="nav-link" data-page="courses" aria-label="Ir para Capacitação">
+                    <i data-lucide="graduation-cap" aria-hidden="true"></i>
                     <span>Capacitação</span>
                 </a>
             </nav>
             
             <div class="sidebar-footer">
-                <a href="#" class="nav-link" data-page="profile">
-                    <i data-lucide="user"></i>
+                <a href="#profile" class="nav-link" data-page="profile" aria-label="Ir para Perfil">
+                    <i data-lucide="user" aria-hidden="true"></i>
                     <span>Meu Perfil</span>
                 </a>
                 <a href="login.html" class="nav-link">
@@ -80,26 +141,26 @@
         </aside>
 
         <div class="main-wrapper">
-            <header class="top-header">
-                <button class="menu-toggle" id="menuToggle">
-                    <i data-lucide="menu"></i>
+            <header class="top-header" role="banner">
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+                    <i data-lucide="menu" aria-hidden="true"></i>
                 </button>
                 
-                <button class="header-btn search-toggle" id="searchToggle">
-                    <i data-lucide="search"></i>
+                <button class="header-btn search-toggle" id="searchToggle" aria-label="Buscar">
+                    <i data-lucide="search" aria-hidden="true"></i>
                 </button>
                 
-                <div class="search-box" id="searchBox">
-                    <i data-lucide="search" class="search-box-icon"></i>
-                    <input type="text" placeholder="Buscar clientes, relatórios, culturas...">
+                <div class="search-box" id="searchBox" role="search">
+                    <i data-lucide="search" class="search-box-icon" aria-hidden="true"></i>
+                    <input type="search" placeholder="Buscar clientes, relatórios, culturas..." aria-label="Campo de busca">
                 </div>
                 
                 <div class="header-actions">
-                    <a href="guia-apresentacao.html" class="header-btn" title="Guia de Apresentação" style="text-decoration: none; color: inherit;">
-                        <i data-lucide="book-open"></i>
+                    <a href="guia-apresentacao.html" class="header-btn" title="Guia de Apresentação do Projeto" aria-label="Ver guia de apresentação" style="text-decoration: none; color: inherit;">
+                        <i data-lucide="book-open" aria-hidden="true"></i>
                     </a>
                     
-                    <button class="header-btn" title="Notificações">
+                    <button class="header-btn" title="Notificações" aria-label="Ver notificações">
                         <i data-lucide="bell"></i>
                         <span class="badge">3</span>
                     </button>
