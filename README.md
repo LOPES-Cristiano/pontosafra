@@ -969,14 +969,3 @@ Renderização via Canvas API:
 - `drawProductionChart()`: Gráfico de barras mensal
 - `drawDonutChart()`: Gráfico circular de distribuição
 
-## 🐛 Problemas Conhecidos
-
-Nenhum problema conhecido no momento. Sistema está totalmente funcional.
-
-## 📄 Licença
-
-Projeto de demonstração - Uso educacional
-
-## 👤 Autor
-
-Desenvolvido para gestão agrícola profissional
