@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponto Safra - Gestão Agrícola Inteligente</title>
+    <script>
+        // Redirect to login page
+        window.location.href = 'login.html';
+    </script>
+</head>
+<body>
+    <p>Redirecionando...</p>
+</body>
+</html>
+    <div id="login-screen" class="screen active">
+        <div class="login-split">
+            <div class="login-left">
+                <div class="login-bg-overlay"></div>
+                <div class="login-branding">
+                    <div class="logo-large">
+                        <div class="coffee-bean-large"></div>
+                    </div>
+                    <h1>PONTO SAFRA</h1>
+                    <p class="tagline">Gestão Agrícola Inteligente</p>
+                    <p class="description">Consultoria especializada para produtores rurais. Gerencie sua produção, custos e resultados em tempo real.</p>
+                </div>
+            </div>
+            
+            <div class="login-right">
+                <div class="login-form-container">
+                    <h2>Acesse sua conta</h2>
+                    <p class="login-subtitle">Entre com suas credenciais</p>
+                    
+                    <form id="login-form" class="login-form">
+                        <div class="input-group">
+                            <label>E-mail ou Usuário</label>
+                            <input type="text" placeholder="seu@email.com" class="input-field" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Senha</label>
+                            <input type="password" placeholder="••••••••" class="input-field" required>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="remember-me">
+                                <input type="checkbox">
+                                <span>Manter conectado</span>
+                            </label>
+                            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Entrar</button>
+                    </form>
+                    
+                    <div class="register-link">
+                        <span>Não tem uma conta?</span>
+                        <a href="#" class="link-highlight">Cadastre-se gratuitamente</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="app-screen" class="screen">
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-mini">
+                    <div class="coffee-bean-mini"></div>
+                </div>
+                <div class="logo-text">
+                    <h3>PONTO SAFRA</h3>
+                    <span>Consultoria</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active" data-page="dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-page="production">
+                    <i data-lucide="package"></i>
+                    <span>Produção</span>
+                </a>
+                <a href="#" class="nav-link" data-page="financial">
+                    <i data-lucide="dollar-sign"></i>
+                    <span>Financeiro</span>
+                </a>
+                <a href="#" class="nav-link" data-page="clients">
+                    <i data-lucide="users"></i>
+                    <span>Clientes</span>
+                </a>
+                <a href="#" class="nav-link" data-page="reports">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span>Relatórios</span>
+                </a>
+                <a href="#" class="nav-link" data-page="weather">
+                    <i data-lucide="cloud-sun"></i>
+                    <span>Clima</span>
+                </a>
+                <a href="#" class="nav-link" data-page="market">
+                    <i data-lucide="trending-up"></i>
+                    <span>Cotações</span>
+                </a>
+                <a href="#" class="nav-link" data-page="courses">
+                    <i data-lucide="graduation-cap"></i>
+                    <span>Capacitação</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" class="nav-link">
+                    <i data-lucide="settings"></i>
+                    <span>Configurações</span>
+                </a>
+                <a href="#" class="nav-link" onclick="navigateTo('login')">
+                    <i data-lucide="log-out"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <button class="menu-toggle" id="menuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+                
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Buscar clientes, relatórios, culturas...">
+                </div>
+                
+                <div class="header-actions">
+                    <button class="header-btn" title="Notificações">
+                        <i data-lucide="bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    
+                    <div class="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="Usuário">
+                        <div class="user-info">
+                            <span class="user-name">João Silva</span>
+                            <span class="user-role">Consultor</span>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            
+            <main class="main-content" id="mainContent">
+                <div class="content-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Visão geral da sua consultoria agrícola</p>
+                    </div>
+                    <button class="btn-primary">
+                        <i data-lucide="plus"></i>
+                        Novo Cliente
+                    </button>
+                </div>
+
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon bg-blue">
+                                <i data-lucide="users"></i>
+                            </div>
+                            <span class="stat-trend up">+12%</span>
+                        </div>
+                        <h3>Total de Clientes</h3>
+                        <p class="stat-value">47</p>
+                        <span class="stat-label">Clientes ativos</span>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon bg-green">
+                                <i data-lucide="sprout"></i>
+                            </div>
+                            <span class="stat-trend up">+8%</span>
+                        </div>
+                        <h3>Produção Total</h3>
+                        <p class="stat-value">12.450</p>
+                        <span class="stat-label">Sacas de café</span>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon bg-orange">
+                                <i data-lucide="trending-up"></i>
+                            </div>
+                            <span class="stat-trend up">+23%</span>
+                        </div>
+                        <h3>Receita Mensal</h3>
+                        <p class="stat-value">R$ 284k</p>
+                        <span class="stat-label">Média últimos 30 dias</span>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon bg-purple">
+                                <i data-lucide="map-pin"></i>
+                            </div>
+                            <span class="stat-trend">--</span>
+                        </div>
+                        <h3>Área Gerenciada</h3>
+                        <p class="stat-value">3.240</p>
+                        <span class="stat-label">Hectares</span>
+                    </div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="chart-card large">
+                        <div class="card-header">
+                            <div>
+                                <h3>Produção por Mês</h3>
+                                <p>Acompanhamento da safra atual</p>
+                            </div>
+                            <select class="select-filter">
+                                <option>2025</option>
+                                <option>2024</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="productionChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3>Distribuição de Custos</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="costsChart"></canvas>
+                        </div>
+                        <div class="chart-legend vertical">
+                            <div class="legend-item">
+                                <span class="legend-dot bg-blue"></span>
+                                <span>Insumos</span>
+                                <strong>42%</strong>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot bg-orange"></span>
+                                <span>Mão de obra</span>
+                                <strong>31%</strong>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot bg-green"></span>
+                                <span>Equipamentos</span>
+                                <strong>18%</strong>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot bg-purple"></span>
+                                <span>Outros</span>
+                                <strong>9%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="bottom-row">
+                    <div class="activity-card">
+                        <div class="card-header">
+                            <h3>Atividades Recentes</h3>
+                            <a href="#" class="link-small">Ver todas</a>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon bg-green">
+                                    <i data-lucide="check-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Colheita concluída</h4>
+                                    <p>Fazenda São João - Talhão 3</p>
+                                    <span class="time">Há 2 horas</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon bg-orange">
+                                    <i data-lucide="alert-triangle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Alerta de irrigação</h4>
+                                    <p>Sítio Boa Vista - Sistema #2</p>
+                                    <span class="time">Há 4 horas</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon bg-blue">
+                                    <i data-lucide="user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Novo cliente cadastrado</h4>
+                                    <p>Pedro Almeida - Café Arábica</p>
+                                    <span class="time">Ontem</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon bg-purple">
+                                    <i data-lucide="file-text"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Relatório gerado</h4>
+                                    <p>Análise de solo - Fazenda Esperança</p>
+                                    <span class="time">2 dias atrás</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-card">
+                        <div class="card-header">
+                            <h3>Previsão do Tempo</h3>
+                            <span class="location">
+                                <i data-lucide="map-pin"></i>
+                                São Paulo, SP
+                            </span>
+                        </div>
+                        <div class="weather-current">
+                            <div class="weather-icon">
+                                <i data-lucide="cloud-sun"></i>
+                            </div>
+                            <div class="weather-temp">
+                                <h2>24°C</h2>
+                                <p>Parcialmente nublado</p>
+                            </div>
+                        </div>
+                        <div class="weather-details">
+                            <div class="weather-detail">
+                                <i data-lucide="droplets"></i>
+                                <span>Umidade</span>
+                                <strong>68%</strong>
+                            </div>
+                            <div class="weather-detail">
+                                <i data-lucide="wind"></i>
+                                <span>Vento</span>
+                                <strong>12 km/h</strong>
+                            </div>
+                            <div class="weather-detail">
+                                <i data-lucide="umbrella"></i>
+                                <span>Chuva</span>
+                                <strong>20%</strong>
+                            </div>
+                        </div>
+                        <div class="weather-forecast">
+                            <div class="forecast-day">
+                                <span>Seg</span>
+                                <i data-lucide="sun"></i>
+                                <strong>26°</strong>
+                            </div>
+                            <div class="forecast-day">
+                                <span>Ter</span>
+                                <i data-lucide="cloud"></i>
+                                <strong>23°</strong>
+                            </div>
+                            <div class="forecast-day">
+                                <span>Qua</span>
+                                <i data-lucide="cloud-rain"></i>
+                                <strong>21°</strong>
+                            </div>
+                            <div class="forecast-day">
+                                <span>Qui</span>
+                                <i data-lucide="sun"></i>
+                                <strong>25°</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="market-card">
+                        <div class="card-header">
+                            <h3>Cotações</h3>
+                            <span class="update-time">Atualizado há 15 min</span>
+                        </div>
+                        <div class="market-list">
+                            <div class="market-item">
+                                <div class="market-info">
+                                    <h4>Café Arábica</h4>
+                                    <span>Saca 60kg</span>
+                                </div>
+                                <div class="market-price">
+                                    <strong>R$ 1.245,00</strong>
+                                    <span class="trend up">+5.2%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="market-item">
+                                <div class="market-info">
+                                    <h4>Café Robusta</h4>
+                                    <span>Saca 60kg</span>
+                                </div>
+                                <div class="market-price">
+                                    <strong>R$ 892,00</strong>
+                                    <span class="trend up">+2.8%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="market-item">
+                                <div class="market-info">
+                                    <h4>Milho</h4>
+                                    <span>Saca 60kg</span>
+                                </div>
+                                <div class="market-price">
+                                    <strong>R$ 78,50</strong>
+                                    <span class="trend down">-1.3%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="market-item">
+                                <div class="market-info">
+                                    <h4>Soja</h4>
+                                    <span>Saca 60kg</span>
+                                </div>
+                                <div class="market-price">
+                                    <strong>R$ 152,30</strong>
+                                    <span class="trend up">+3.1%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

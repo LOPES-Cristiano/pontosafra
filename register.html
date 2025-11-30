@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <title>Cadastro - Ponto Safra</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="login-split">
+        <div class="login-left">
+            <div class="login-bg-overlay"></div>
+            <div class="login-branding">
+                <img src="logo.png" alt="Ponto Safra Logo" style="width: 120px; height: 120px; margin-bottom: 24px; border-radius: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                <h1>PONTO SAFRA</h1>
+                <p class="tagline">Não plantamos café, plantamos marcas</p>
+                <p class="description">Junte-se a centenas de consultores e produtores que já transformaram sua gestão agrícola.</p>
+            </div>
+        </div>
+        
+        <div class="login-right">
+            <div class="login-form-container">
+                <div class="login-logo-small">
+                    <img src="logo.png" alt="Logo" class="logo-mini-img">
+                    <div class="logo-text-small">
+                        <h3>PONTO SAFRA</h3>
+                        <span>Consultoria</span>
+                    </div>
+                </div>
+                
+                <h2>Criar conta</h2>
+                <p class="login-subtitle">Preencha seus dados para começar</p>
+                
+                <div id="alert-container"></div>
+                
+                <form id="register-form" class="login-form">
+                    <div class="input-group">
+                        <label>Nome completo</label>
+                        <input type="text" id="register-name" placeholder="João Silva" class="input-field" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>E-mail</label>
+                        <input type="email" id="register-email" placeholder="seu@email.com" class="input-field" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Nome de usuário</label>
+                        <input type="text" id="register-username" placeholder="joaosilva" class="input-field" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Tipo de conta</label>
+                        <select id="register-role" class="input-field" required>
+                            <option value="">Selecione...</option>
+                            <option value="Consultor">Consultor Agrícola</option>
+                            <option value="Produtor">Produtor Rural</option>
+                            <option value="Gerente">Gerente de Fazenda</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Senha</label>
+                        <input type="password" id="register-password" placeholder="••••••••" class="input-field" required minlength="6">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Confirmar senha</label>
+                        <input type="password" id="register-confirm" placeholder="••••••••" class="input-field" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Criar conta</button>
+                </form>
+                
+                <div class="register-link">
+                    <span>Já tem uma conta?</span>
+                    <a href="login.html" class="link-highlight">Fazer login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        function showAlert(message, type = 'error') {
+            const container = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.innerHTML = '';
+            container.appendChild(alert);
+            
+            setTimeout(() => alert.remove(), 5000);
+        }
+        
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const username = document.getElementById('register-username').value;
+            const role = document.getElementById('register-role').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+            
+            // Validate password
+            if (password !== confirm) {
+                showAlert('As senhas não coincidem!', 'error');
+                return;
+            }
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('pontosafra_users') || '[]');
+            
+            // Check if user already exists
+            if (users.find(u => u.email === email || u.username === username)) {
+                showAlert('Usuário ou e-mail já cadastrado!', 'error');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name,
+                email,
+                username,
+                role,
+                password,
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('pontosafra_users', JSON.stringify(users));
+            
+            showAlert('Conta criada com sucesso! Redirecionando...', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponto Safra - Visão do Projeto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2E7D32;
+            --primary-light: #4CAF50;
+            --primary-dark: #1B5E20;
+            --accent: #FF9800;
+            --text: #2C3E50;
+            --text-light: #5F6368;
+            --text-muted: #9E9E9E;
+            --bg: #FFFFFF;
+            --bg-alt: #F8F9FA;
+            --border: #E0E0E0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: var(--text);
+            background: var(--bg-alt);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg);
+            box-shadow: 0 0 40px rgba(0,0,0,0.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 100px 40px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".1" fill="%23ffffff"/></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .hero .tagline {
+            font-size: 1.6em;
+            opacity: 0.95;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .hero .slogan {
+            font-size: 1.3em;
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(255,255,255,0.2);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 18px 50px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.15em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Content */
+        .content {
+            padding: 80px 40px;
+        }
+
+        .section {
+            margin-bottom: 100px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 1.25em;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Vision Box */
+        .vision-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 6px solid var(--primary);
+            padding: 50px;
+            border-radius: 15px;
+            margin: 50px 0;
+            box-shadow: 0 5px 20px rgba(46, 125, 50, 0.08);
+        }
+
+        .vision-box h3 {
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .vision-box p {
+            font-size: 1.15em;
+            color: var(--text);
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .vision-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Objectives Grid */
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+        }
+
+        .objective-card {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .objective-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .objective-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .objective-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(46, 125, 50, 0.15);
+        }
+
+        .objective-card .icon {
+            font-size: 4em;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .objective-card h4 {
+            color: var(--primary);
+            font-size: 1.6em;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .objective-card p {
+            color: var(--text-light);
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+
+        /* Personas */
+        .personas-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            margin: 50px 0;
+        }
+
+        .persona {
+            background: var(--bg);
+            border: 3px solid var(--border);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .persona::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 3px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .persona:hover::after {
+            opacity: 1;
+        }
+
+        .persona:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(46, 125, 50, 0.15);
+            border-color: transparent;
+        }
+
+        .persona .avatar {
+            font-size: 5.5em;
+            margin-bottom: 25px;
+        }
+
+        .persona h4 {
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .persona p {
+            color: var(--text-light);
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        /* Features Showcase */
+        .features-showcase {
+            background: var(--bg-alt);
+            padding: 60px 50px;
+            border-radius: 20px;
+            margin: 50px 0;
+        }
+
+        .feature-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin: 60px 0;
+        }
+
+        .feature-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-content h3 {
+            color: var(--primary);
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .feature-content p {
+            color: var(--text-light);
+            font-size: 1.15em;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .feature-visual {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 20px;
+            padding: 80px;
+            text-align: center;
+            font-size: 7em;
+            box-shadow: 0 10px 40px rgba(46, 125, 50, 0.2);
+        }
+
+        /* Differentials */
+        .differentials {
+            background: var(--bg-alt);
+            padding: 60px 50px;
+            border-radius: 20px;
+            margin: 50px 0;
+        }
+
+        .differentials h3 {
+            color: var(--primary);
+            font-size: 2.2em;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .differential-list {
+            display: grid;
+            gap: 25px;
+        }
+
+        .differential-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            padding: 30px;
+            background: var(--bg);
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .differential-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.1);
+        }
+
+        .differential-item .icon {
+            font-size: 3em;
+            flex-shrink: 0;
+        }
+
+        .differential-item .content h4 {
+            color: var(--primary);
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .differential-item .content p {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin: 50px 0;
+            justify-content: center;
+        }
+
+        .tech-badge {
+            background: var(--primary);
+            color: white;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+        }
+
+        .tech-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(46, 125, 50, 0.3);
+            background: var(--primary-light);
+        }
+
+        /* Impact Section */
+        .impact-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 60px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(46, 125, 50, 0.3);
+        }
+
+        .impact-section h3 {
+            font-size: 2.8em;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .impact-item {
+            padding: 40px 30px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .impact-item:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+
+        .impact-item .number {
+            font-size: 3.5em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .impact-item .label {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3em;
+            }
+
+            .section-title {
+                font-size: 2.3em;
+            }
+
+            .feature-row {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 70px 30px 60px;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero .tagline {
+                font-size: 1.3em;
+            }
+
+            .hero .slogan {
+                font-size: 1.1em;
+            }
+
+            .content {
+                padding: 60px 25px;
+            }
+
+            .section {
+                margin-bottom: 70px;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .section-subtitle {
+                font-size: 1.1em;
+            }
+
+            .vision-box {
+                padding: 35px 25px;
+            }
+
+            .objectives-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .objective-card {
+                padding: 30px 25px;
+            }
+
+            .personas-container {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .persona {
+                padding: 40px 30px;
+            }
+
+            .features-showcase {
+                padding: 40px 25px;
+            }
+
+            .feature-row {
+                flex-direction: column !important;
+                gap: 35px;
+            }
+
+            .feature-visual {
+                padding: 60px;
+                font-size: 5em;
+            }
+
+            .differentials {
+                padding: 40px 25px;
+            }
+
+            .differential-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 25px 20px;
+            }
+
+            .impact-section {
+                padding: 60px 30px;
+            }
+
+            .impact-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero .tagline {
+                font-size: 1.1em;
+            }
+
+            .hero-cta {
+                padding: 15px 35px;
+                font-size: 1em;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+            }
+
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>🌱 Ponto Safra</h1>
+                <p class="tagline">Sistema de Gestão Agrícola Inteligente</p>
+                <p class="slogan">"Não plantamos café, plantamos marcas"</p>
+                <a href="dashboard.html" class="hero-cta">🚀 Acessar Sistema</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">💡 Visão do Projeto</h2>
+                    <p class="section-subtitle">Uma plataforma completa para transformar a gestão agrícola</p>
+                </div>
+
+                <div class="vision-box">
+                    <h3>O Que é o Ponto Safra?</h3>
+                    <p>
+                        O Ponto Safra é um sistema de gestão agrícola completo, desenvolvido para revolucionar a forma como produtores rurais 
+                        e consultores agrícolas gerenciam suas operações. Combinamos tecnologia moderna com praticidade, oferecendo uma 
+                        solução 100% web, responsiva e intuitiva.
+                    </p>
+                    <p>
+                        Nossa missão é democratizar o acesso à tecnologia no campo, permitindo que desde pequenos produtores até grandes 
+                        consultorias possam ter controle total sobre produção, finanças, estoque e muito mais.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">🎯 Objetivos Principais</h2>
+                </div>
+
+                <div class="objectives-grid">
+                    <div class="objective-card">
+                        <span class="icon">📊</span>
+                        <h4>Centralização de Dados</h4>
+                        <p>
+                            Reunir todas as informações da propriedade em um único lugar, eliminando planilhas dispersas 
+                            e facilitando a tomada de decisão baseada em dados reais.
+                        </p>
+                    </div>
+
+                    <div class="objective-card">
+                        <span class="icon">📱</span>
+                        <h4>Acessibilidade Total</h4>
+                        <p>
+                            Funcionar perfeitamente em qualquer dispositivo - celular, tablet ou computador - permitindo 
+                            que o produtor gerencie sua fazenda de onde estiver.
+                        </p>
+                    </div>
+
+                    <div class="objective-card">
+                        <span class="icon">🚀</span>
+                        <h4>Simplicidade</h4>
+                        <p>
+                            Oferecer uma interface intuitiva que qualquer pessoa consiga usar, sem necessidade de 
+                            treinamento complexo ou conhecimento técnico avançado.
+                        </p>
+                    </div>
+
+                    <div class="objective-card">
+                        <span class="icon">🌍</span>
+                        <h4>Informação em Tempo Real</h4>
+                        <p>
+                            Integrar dados de clima, cotações de mercado e notícias do agronegócio para decisões 
+                            mais assertivas e estratégicas.
+                        </p>
+                    </div>
+
+                    <div class="objective-card">
+                        <span class="icon">👥</span>
+                        <h4>Escalabilidade</h4>
+                        <p>
+                            Servir tanto o pequeno produtor com uma propriedade quanto o consultor que gerencia 
+                            dezenas de clientes simultaneamente.
+                        </p>
+                    </div>
+
+                    <div class="objective-card">
+                        <span class="icon">💼</span>
+                        <h4>Profissionalização</h4>
+                        <p>
+                            Elevar o nível de gestão do agronegócio, trazendo ferramentas profissionais para 
+                            organização, controle e crescimento sustentável.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">👥 Para Quem Foi Feito</h2>
+                    <p class="section-subtitle">Sistema flexível que atende múltiplos perfis e suas necessidades específicas</p>
+                </div>
+
+                <div class="personas-container">
+                    <div class="persona">
+                        <div class="avatar">👨‍🌾</div>
+                        <h4>Produtor Rural</h4>
+                        <p>
+                            Gerencia propriedades, acompanha produção em tempo real, controla estoque de insumos e 
+                            mantém finanças organizadas. Sistema adaptado para quem está no campo e precisa de 
+                            informações rápidas e acionáveis.
+                        </p>
+                    </div>
+
+                    <div class="persona">
+                        <div class="avatar">👨‍💼</div>
+                        <h4>Consultor Agrícola</h4>
+                        <p>
+                            Gerencia portfólio completo de clientes e propriedades. Gera relatórios profissionais, 
+                            acompanha indicadores de múltiplas fazendas simultaneamente e oferece consultoria baseada 
+                            em dados consolidados.
+                        </p>
+                    </div>
+
+                    <div class="persona">
+                        <div class="avatar">🏢</div>
+                        <h4>Gestores e Cooperativas</h4>
+                        <p>
+                            Visão macro de operações, análise de desempenho por região, gestão de múltiplos produtores 
+                            associados e consolidação de dados para tomada de decisão estratégica em larga escala.
+                        </p>
+                    </div>
+
+                    <div class="persona">
+                        <div class="avatar">📊</div>
+                        <h4>Investidores e Analistas</h4>
+                        <p>
+                            Acompanhamento de performance de investimentos agrícolas, relatórios financeiros detalhados, 
+                            análise de ROI por cultura e visão clara sobre rentabilidade das operações.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">⚡ Principais Funcionalidades</h2>
+                </div>
+
+                <div class="features-showcase">
+                    <div class="feature-row">
+                        <div class="feature-content">
+                            <h3>Dashboard Completo</h3>
+                            <p>
+                                Visão geral de toda a operação em uma única tela. Acompanhe indicadores de produção, 
+                                finanças, estoque e alertas importantes em tempo real.
+                            </p>
+                            <p>
+                                Gráficos interativos facilitam a compreensão e identificação de tendências.
+                            </p>
+                        </div>
+                        <div class="feature-visual">📊</div>
+                    </div>
+
+                    <div class="feature-row">
+                        <div class="feature-content">
+                            <h3>Gestão de Produção</h3>
+                            <p>
+                                Controle completo de talhões, culturas, safras e colheitas. Registre todas as atividades 
+                                e tenha histórico detalhado de cada área da propriedade.
+                            </p>
+                            <p>
+                                Compare resultados entre safras e identifique áreas de melhoria.
+                            </p>
+                        </div>
+                        <div class="feature-visual">🌾</div>
+                    </div>
+
+                    <div class="feature-row">
+                        <div class="feature-content">
+                            <h3>Controle Financeiro</h3>
+                            <p>
+                                Gerencie receitas, despesas, fluxo de caixa e margem de lucro. Categorize gastos, 
+                                acompanhe investimentos e tenha clareza sobre a saúde financeira do negócio.
+                            </p>
+                            <p>
+                                Relatórios financeiros detalhados para prestação de contas e planejamento.
+                            </p>
+                        </div>
+                        <div class="feature-visual">💰</div>
+                    </div>
+
+                    <div class="feature-row">
+                        <div class="feature-content">
+                            <h3>Integração de Dados Externos</h3>
+                            <p>
+                                Clima, cotações de commodities e notícias do agronegócio integrados ao sistema. 
+                                Tome decisões informadas com base em informações atualizadas.
+                            </p>
+                            <p>
+                                Alertas meteorológicos ajudam a planejar atividades de campo com segurança.
+                            </p>
+                        </div>
+                        <div class="feature-visual">🌦️</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">✨ Diferenciais Competitivos</h2>
+                </div>
+
+                <div class="differentials">
+                    <div class="differential-list">
+                        <div class="differential-item">
+                            <span class="icon">🎨</span>
+                            <div class="content">
+                                <h4>Design Moderno e Intuitivo</h4>
+                                <p>
+                                    Interface limpa, profissional e fácil de usar. Desenvolvida pensando na experiência 
+                                    do usuário, com navegação fluida e visual agradável.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="differential-item">
+                            <span class="icon">📱</span>
+                            <div class="content">
+                                <h4>100% Responsivo</h4>
+                                <p>
+                                    Funciona perfeitamente em qualquer dispositivo. Seja no campo com o celular ou 
+                                    no escritório com o computador, a experiência é sempre otimizada.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="differential-item">
+                            <span class="icon">🔄</span>
+                            <div class="content">
+                                <h4>Sistema Completo</h4>
+                                <p>
+                                    10+ módulos integrados: Dashboard, Produção, Financeiro, Clientes, Propriedades, 
+                                    Estoque, Relatórios, Clima, Cotações, Notícias e Capacitação.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="differential-item">
+                            <span class="icon">👥</span>
+                            <div class="content">
+                                <h4>Multi-Perfil</h4>
+                                <p>
+                                    Sistema se adapta automaticamente: modo Produtor para gestão individual ou modo 
+                                    Consultor para gerenciamento de múltiplos clientes.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="differential-item">
+                            <span class="icon">📊</span>
+                            <div class="content">
+                                <h4>Relatórios e Análises</h4>
+                                <p>
+                                    Geração de relatórios profissionais, exportação de dados e análises detalhadas 
+                                    para embasar decisões estratégicas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+           
+
+            
+            <section class="section">
+                <div class="impact-section">
+                    <h3>📈 Impacto Real no Campo</h3>
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <span class="number">10+</span>
+                            <span class="label">Módulos Integrados</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="number">100%</span>
+                            <span class="label">Web & Mobile</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="number">Multi</span>
+                            <span class="label">Perfis Atendidos</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="number">24/7</span>
+                            <span class="label">Disponibilidade</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Animação suave ao scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.objective-card, .persona, .differential-item, .feature-row').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            observer.observe(el);
+        });
+
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
